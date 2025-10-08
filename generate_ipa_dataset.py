@@ -52,8 +52,19 @@ def phonemize_batch(batch):
     return result
 
 def save_phonemized_data(ipa_data, filename):
-    with open(filename, 'w', encoding='utf-8') as f:
-        json.dump(ipa_data, f, ensure_ascii=False)
+    if not isinstance(ipa_data, pd.DataFrame):
+        raise ValueError("ipa_data must be a pandas DataFrame")
+    
+    if not all(col in ipa_data.columns for col in ['text', 'label']):
+        raise ValueError("DataFrame must contain 'text' and 'label' columns")
+    
+    ipa_data.to_csv(filename, index=False, encoding='utf-8')
+    print(f"Data saved to {filename}")
+
+# To reload the dataset:
+def load_phonemized_data(filename):
+    """Load phonemized data from CSV"""
+    return pd.read_csv(filename, encoding='utf-8')
 
 download("imdb-train.csv.gz", "https://github.com/datascienceunibo/bbs-dl-lab-2019/raw/master/imdb-train.csv.gz")
 train_set = pd.read_csv("imdb-train.csv.gz", sep="\t", names=["label", "text"])

@@ -16,7 +16,15 @@
       packages = with pkgs; [
         # modern python package manager
         uv
+        # phonemizer backend
+        espeak-classic
       ];
+
+      shellHook = ''
+        export PATH="${pkgs.espeak-classic}/bin:$PATH"
+        # Add espeak libraries to the library path
+        export LD_LIBRARY_PATH="${pkgs.espeak-classic}/lib:$LD_LIBRARY_PATH"
+      '';
     };
   };
 }
