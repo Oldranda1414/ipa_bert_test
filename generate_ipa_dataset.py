@@ -68,10 +68,8 @@ def load_phonemized_data(filename):
 
 download("imdb-train.csv.gz", "https://github.com/datascienceunibo/bbs-dl-lab-2019/raw/master/imdb-train.csv.gz")
 train_set = pd.read_csv("imdb-train.csv.gz", sep="\t", names=["label", "text"])
-train_set["text"] = train_set["text"].apply(strip_tags)
 download("imdb-test.csv.gz", "https://github.com/datascienceunibo/bbs-dl-lab-2019/raw/master/imdb-test.csv.gz")
 test_set = pd.read_csv("imdb-test.csv.gz", sep="\t", names=["label", "text"])
-test_set["text"] = test_set["text"].apply(strip_tags)
 
 # Phonemize dataset
 train_set["text"] = phonemize_batch(train_set["text"])
