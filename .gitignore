@@ -12,3 +12,6 @@ wheels/
 # direnv
 .envrc
 .direnv
+
+# downloaded zips
+*.gz
