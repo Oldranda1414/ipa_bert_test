@@ -1,6 +1,5 @@
 import os
 import re
-import json
 from urllib.request import urlretrieve
 from phonemizer import phonemize
 import pandas as pd
@@ -73,8 +72,8 @@ test_set = pd.read_csv("imdb-test.csv.gz", sep="\t", names=["label", "text"])
 
 # Phonemize dataset
 train_set["text"] = phonemize_batch(train_set["text"])
-save_phonemized_data(train_set, "ipa_dataset/ipa_train.json")
+save_phonemized_data(train_set, "ipa_dataset/ipa_train.csv")
 print("saved train")
 test_set["text"] = phonemize_batch(test_set["text"])
-save_phonemized_data(test_set, "ipa_dataset/ipa_test.json")
+save_phonemized_data(test_set, "ipa_dataset/ipa_test.csv")
 print("saved test")
