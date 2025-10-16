@@ -1,5 +1,11 @@
 from phonemizer import phonemize
 import pandas as pd
+import os
+from urllib.request import urlretrieve
+
+def download(file, url):
+    if not os.path.isfile(file):
+        urlretrieve(url, file)
 
 def phonemize_batch(batch):
     return phonemize(
@@ -19,7 +25,8 @@ def load_phonemized_data(filename):
     """Load phonemized data from CSV"""
     return pd.read_csv(filename, encoding='utf-8')
 
-df = pd.read_csv('https://github.com/clairett/pytorch-sentiment-classification/raw/master/data/SST2/train.tsv', delimiter='\t', header=None)
+download('sst2_train.tsv', 'https://github.com/clairett/pytorch-sentiment-classification/raw/master/data/SST2/train.tsv')
+df = pd.read_csv('sst2_train.tsv', delimiter='\t', header=None)
 
 # Phonemize dataset
 df[0] = phonemize_batch(df[0])
