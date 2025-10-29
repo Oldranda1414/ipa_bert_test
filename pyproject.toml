@@ -7,4 +7,5 @@ requires-python = ">=3.11"
 dependencies = [
     "pandas>=2.3.3",
     "phonemizer>=3.3.0",
+    "transformers>=4.57.1",
 ]
