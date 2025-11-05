@@ -1,0 +1,46 @@
+name: Deploy Colab Notebook to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install Jupyter
+        run: pip install jupyter
+
+      - name: Convert notebook to HTML
+        run: |
+          mkdir -p build
+          jupyter nbconvert colab/ipa_latin_comparison.ipynb \
+            --to html \
+            --output-dir build \
+            --output index.html
+
+      - name: Apply dark mode styling
+        run: |
+          cp colab/custom.css build/custom.css
+          sed -i 's|</head>|<link rel="stylesheet" href="custom.css"></head>|' build/index.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
